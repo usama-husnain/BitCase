@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Task List{% endblock %}
+  {% block content %}
+    <h1 class="text-center my-3 bg-light p-3">Tasks</h1>
+    
+
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="p-3 bg-primary-subtle rounded-1">
+        <p class="fw-bold text-body-secondary">Search Task</p>
+        <form action="{% url 'tasks.search' %}" method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-3">
+              <select name="completed" class="form-control">
+                <option value="">--- Select Status ---</option>
+                <option value="1">Completed</option>
+                <option value="0">Pending</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <input class="form-control" type="date" name="start" />
+            </div>
+            <div class="col-3">
+              <input class="form-control" type="date" name="end" />
+            </div>
+            <div class="col-3">
+              <input type="submit" name="search" class="btn btn-primary" />
+            </div>
+          </div>
+          
+        </form>
+      </div>
+      
+
+      <hr/>
+
+      <a href="{% url 'tasks.create' %}" class="btn btn-primary my-3">Create</a>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Sr#</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Is-Completed</th>
+            <th>Created At</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+          <tr>
+            <td>{{task.id}}</td>
+            <td>{{task.title}}</td>
+            <td>{{task.desc}}</td>
+            <td>
+              <input type="checkbox" class="completed" name="completed" value="{{task.id}}" {% if task.completed == 1 %} checked {% endif %}>
+            </td>
+            <td>{{task.created}}</td>
+            <td>
+              <a class="btn btn-sm btn-info text-white" href="{% url 'tasks.view' id=task.id %}">
+                View
+              </a>
+              <a class="btn btn-sm btn-primary text-white" href="{% url 'tasks.update' id=task.id %}">
+                Edit
+              </a>
+              <a class="btn btn-sm btn-danger text-white" href="{% url 'tasks.delete' id=task.id %}">
+                Delete
+              </a>
+            </td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    <script>
+      $(document).ready(function(){
+        $('.completed').click(function(){
+          var completed = 0
+          var id =  $(this).val()
+          // alert(id)
+        if ($(this).is(":checked"))
+        {
+          completed = 1
+        }
+        // alert(completed)
+        $.ajax({
+      url: '{% url "taskCompleted"  %}',
+      method: 'POST',  
+      headers:{
+        "X-CSRFToken": '{{ csrf_token }}'
+    },  
+      data: {
+        'completed': completed,
+        'id': id
+      },
+      success: function(response) {
+        // Handle the successful response from the server
+        console.log(response);
+        alert("Task Updated Successfully!")
+        location.reload();
+      },
+      error: function(xhr, errmsg, err) {
+        // Handle any error that occurs during the AJAX request
+        console.log(xhr.status + ": " + xhr.responseText);
+      }
+    });
+
+
+
+      })
+      })
+    </script>
+
+
+    
+  {% endblock %}
+   

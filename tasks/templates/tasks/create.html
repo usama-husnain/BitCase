@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Create Task {% endblock %}
+  {% block content %}
+    
+    <h1 class="text-center my-3 bg-light p-3">Create Task</h1>
+    
+    <div class="container">
+      <form action="{% url 'tasks.store' %}" method="POST">
+        {% csrf_token %}
+        <label for="">Title</label>
+        <input type="text" name="title" class="form-control" placeholder="Enter Title" />
+        <label for="">Description</label>
+        <textarea name="desc" id="" rows="3" class="form-control"></textarea>
+        <button class="btn btn-primary my-3" type="submit">Save</button>
+      </form>
+    </div>
+  {% endblock %}

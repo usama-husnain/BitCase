@@ -1,0 +1,33 @@
+{% extends 'abase.html' %}
+
+{% block title %} Login  {% endblock %}
+  {% block content %}
+
+  
+  <div class="container mt-5 p-5">
+    <h3 class="bg-light p-3 text-center">Login Form</h3>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+     <form method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      {{ form.email.errors }}
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+      {{ form.password.errors }}
+    </div>
+    <p>Don't have an account? <a href="{% url 'register' %}"> Register Here </a></p>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    
+  </form>
+  </div>
+ 
+
+  {% endblock %}

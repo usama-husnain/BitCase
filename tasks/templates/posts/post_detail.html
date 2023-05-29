@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %} Post Detail {% endblock %}
+  {% block content %}
+    <h1 class="text-center my-3 bg-light p-3">Post</h1>
+    
+    <div class="container">
+      <a href="{% url 'post_list' %}" class="btn btn-primary my-3">Back</a>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary text-small">{{post.title}}</h6>
+          <p class="card-text">
+            {{post.content}}
+          </p>
+        </div>
+      </div>
+    </div>
+  {% endblock %}

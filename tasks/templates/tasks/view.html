@@ -1,0 +1,20 @@
+
+{% extends 'base.html' %}
+{% block title %}Task View{% endblock %}
+  {% block content %}
+    
+    <h1 class="text-center my-3 bg-light p-3">Tasks</h1>
+    
+    <div class="container">
+      <a href="{% url 'tasks' %}" class="btn btn-primary my-3">Back</a>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{task.title}}</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary text-small">{{task.title}}</h6>
+          <p class="card-text">
+            {{task.desc}}
+          </p>
+        </div>
+      </div>
+    </div>
+  {% endblock %}
