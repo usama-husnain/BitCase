@@ -30,7 +30,7 @@ class TaskForm(ModelForm):
 
 @login_required(login_url='/login')
 def index(request):
-    tasks = get_list_or_404(Task)
+    tasks = Task.objects.all()
     return render(request, 'tasks/index.html', {'tasks':tasks})
 
 
@@ -69,6 +69,7 @@ def store(request):
    if form.is_valid():
         form.save()
         return redirect('tasks')
+#    return HttpResponse(form.errors)
    return render(request, 'tasks/create.html', {'form':form})
 
 
@@ -130,9 +131,11 @@ class PostListView(LoginRequiredMixin, ListView):
     template_name = 'posts/post_list.html'
     context_object_name = 'posts'
     
+    def get_queryset(self):
+        return Post.objects.filter(user=self.request.user)
     
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin,CreateView):
    
     model = Post
     template_name = 'posts/post_create.html'
@@ -141,6 +144,7 @@ class PostCreateView(CreateView):
     success_url = reverse_lazy('post_list')
 
     def form_valid(self, form):
+        form.instance.user = self.request.user
         return super().form_valid(form)
     
     def form_invalid(self, form):

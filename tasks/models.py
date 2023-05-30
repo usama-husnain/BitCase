@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -15,6 +16,7 @@ class Task(models.Model):
         return self.title
 
 class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=200, validators=[MinLengthValidator(2)])
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

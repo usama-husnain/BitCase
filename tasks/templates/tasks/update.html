@@ -9,8 +9,10 @@
         {% csrf_token %}
         <label for="">Title</label>
         <input type="text" name="title" class="form-control" placeholder="Enter Title" value="{{task.title}}" />
+        {{form.title.errors}}
         <label for="">Description</label>
         <textarea name="desc" id="" rows="3" class="form-control">{{task.desc}}</textarea>
+        {{form.title.errors}}
         <input type="checkbox" name="completed"  {% if task.completed == 1 %} checked {% endif %} />
         <label for="">Is Completed</label> <br>
         <button class="btn btn-primary my-3" type="submit">Save</button>
