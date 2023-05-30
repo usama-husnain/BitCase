@@ -35,10 +35,10 @@ def index(request):
 
 
 def search(request):
-    complete = bool(request.POST.get('completed'))
+    complete = int(request.POST.get('completed'))
     start_date = request.POST.get('start')
     end_date = request.POST.get('end')
-    if(complete and start_date and end_date):
+    if(complete and start_date and end_date or complete==0 ):
         tasks = Task.objects.filter(created__date__range=(start_date, end_date), completed=complete)
         return render(request, 'tasks/index.html', {'tasks':tasks})
     else:

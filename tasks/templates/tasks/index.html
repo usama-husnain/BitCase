@@ -20,7 +20,7 @@
           {% csrf_token %}
           <div class="row">
             <div class="col-3">
-              <select name="completed" class="form-control">
+              <select name="completed" class="form-control" required>
                 <option value="">--- Select Status ---</option>
                 <option value="1">Completed</option>
                 <option value="0">Pending</option>
