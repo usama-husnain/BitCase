@@ -80,9 +80,10 @@ def profile(request):
 def profile_update(request):
     
     context={'profile':None}
-    user_profile = request.user.profile
-    
-    if user_profile:
+    user_profile = Profile.objects.filter(user_id=request.user.id)
+    # print(user_profile[0])
+    if user_profile.exists():
+        user_profile = user_profile[0]
         context['profile']=user_profile
         if request.method=='POST':
             form = ProfileForm(request.POST, request.FILES, instance=user_profile)

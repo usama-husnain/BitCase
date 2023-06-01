@@ -25,10 +25,11 @@
       <input type="file" class="form-control" id="profile_image" name="profile_image" >
       {{ form.image.errors }}
     </div>
+    {% if profile %}
     <div class="mb-3">
-      <img src="{{profile.profile_image.url}}" class="rounded-1" height="100" width="100" />
+      <img src="{{profile.profile_image.url}}" class="rounded-circle" height="100" width="100" />
     </div>
-    
+    {% endif %}
     
     <button type="submit" class="btn btn-primary">Submit</button>
    
