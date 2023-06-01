@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
@@ -70,13 +71,13 @@ def logout_view(request):
     return redirect("login")
 
 
-
+@login_required(login_url='/login')
 def profile(request):
    
     return render(request, 'account/profile.html')
 
 
-
+@login_required(login_url='/login')
 def profile_update(request):
     
     context={'profile':None}
