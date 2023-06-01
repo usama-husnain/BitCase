@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from django import forms
+from .models import *
+
+# Validation Start for Registration Form
 
 class RegisterFormValidation(forms.ModelForm):
     email = forms.CharField(
@@ -39,6 +42,10 @@ class RegisterFormValidation(forms.ModelForm):
         return cleaned_data
     
 
+# Validation End for Registration Form
+
+
+# Validation Start for Login Form
 
 class LoginFormValidation(forms.ModelForm):
     email = forms.CharField(
@@ -52,9 +59,16 @@ class LoginFormValidation(forms.ModelForm):
             'required': 'Password field is required.',
         })
     
-    
-
     class Meta:
         model = User
         fields = ['email', 'password']
        
+# Validation End for Login Form
+
+
+# Validation Start for Profile Form
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['phone', 'address', 'profile_image']

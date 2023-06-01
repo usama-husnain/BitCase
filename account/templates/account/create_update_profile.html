@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} Update User Profile  {% endblock %}
+  {% block content %}
+  
+  <div class="container mt-5 p-5">
+    <h3 class="bg-light p-3 text-center">User Profile </h3>
+     <form method="POST" action="{% url 'profile_update' %} " enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      
+     
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone #</label>
+      <input type="number" class="form-control" id="phone" name="phone" value="{{profile.phone}}"  >
+      {{ form.phone.errors }}
+    </div>
+    <div class="mb-3">
+      <label for="address" class="form-label">Address</label>
+      <input type="text" class="form-control" id="address" name="address" value="{{profile.address}}">
+      {{ form.address.errors }}
+    </div>
+    <div class="mb-3">
+      <label for="profile_image" class="form-label">Profile Image</label>
+      <input type="file" class="form-control" id="profile_image" name="profile_image" >
+      {{ form.image.errors }}
+    </div>
+    <div class="mb-3">
+      <img src="{{profile.profile_image.url}}" class="rounded-1" height="100" width="100" />
+    </div>
+    
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+   
+    
+  </form>
+  </div>
+ 
+
+  {% endblock %}

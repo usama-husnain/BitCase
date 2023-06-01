@@ -20,7 +20,8 @@ from rest_framework.authtoken import views
 from django.shortcuts import redirect, render
 from account import views as accountview
 from tasks import views as task_view
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('api/token/', views.obtain_auth_token),
@@ -31,3 +32,8 @@ urlpatterns = [
     path('', include('account.urls')),
     path('welcome/',task_view.welcome, name='welcome')
 ]
+
+
+# Add the media URL configuration
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,7 +1,7 @@
 from django.urls import path,include
 from . import views
 from rest_framework.routers import DefaultRouter
-from .views import TaskAPIView,TaskDetailAPIView, PostListView,PostCreateView,PostDetailView, PostViewSet
+from .views import *
 
 router = DefaultRouter()
 router.register(r'posts',PostViewSet,basename="posts")
@@ -19,9 +19,11 @@ urlpatterns = [
     path('tasks/delete/<int:id>', views.task_delete, name='tasks.delete'),
     path('posts/', PostListView.as_view(), name='post_list'),
     path('posts/create', PostCreateView.as_view(), name='post_create'),
+    path('posts/update/<int:pk>', PostUpdateView.as_view(), name='post_update'),
     path('posts/<int:pk>', PostDetailView.as_view(), name='post_detail'),
-    # path('<int:pk>/update/', PostUpdateView.as_view(), name='post_update'),
-    # path('<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
+    path('posts/delete/<int:pk>', PostDeleteView.as_view(), name='post_delete'),
+    path('posts/confirm_delete/<int:pk>', PostDeleteView.as_view(), name='post_confirm_delete'),
+  
 ]
 
 # urlpatterns += router.urls 

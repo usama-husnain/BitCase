@@ -1,6 +1,9 @@
 from django.contrib.auth import authenticate, login as auth_login
+from django.views.generic import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from django.shortcuts import render, HttpResponse, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .validation import *
@@ -65,3 +68,35 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+
+
+def profile(request):
+   
+    return render(request, 'account/profile.html')
+
+
+
+def profile_update(request):
+    
+    context={'profile':None}
+    user_profile = request.user.profile
+    
+    if user_profile:
+        context['profile']=user_profile
+        if request.method=='POST':
+            form = ProfileForm(request.POST, request.FILES, instance=user_profile)
+            if form.is_valid():
+                form.save()
+
+                return redirect('profile')
+        
+    else:
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user  # Set the user for the profile
+            profile.save()
+            return redirect('profile')  # Redirect to a success page
+        
+    return render(request, 'account/create_update_profile.html', context)

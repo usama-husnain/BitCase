@@ -17,11 +17,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def welcome(request):
-    message = request.session['login']
-    request.session['login'] = None
-    return render(request, 'welcome.html',{'message':message})
+    
+    if('login' in request.session):
+        message = request.session['login']
+        request.session['login'] = None
+        return render(request, 'welcome.html',{'message':message}) 
+    return redirect('logout')
 
 class TaskForm(ModelForm):
     class Meta:
@@ -164,8 +167,9 @@ class PostDetailView(DetailView):
 class PostUpdateView(UpdateView):
     model = Post
     template_name = 'posts/post_update.html'
-    fields = ['title', 'content']
+    form_class = PostFormValidation
     context_object_name = 'post'
+    success_url = reverse_lazy('post_list')
 
     def get_queryset(self):
         return super().get_queryset()
